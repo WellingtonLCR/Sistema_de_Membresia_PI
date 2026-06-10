@@ -1,0 +1,208 @@
+/* ── Variáveis de cor ─────────────────────────────────────────────── */
+:root {
+    --cor-primaria: #1a56a0;
+    --cor-primaria-hover: #144080;
+    --cor-primaria-rgb: 26, 86, 160;
+    --cor-sidebar: #0f2d5a;
+    --bs-primary: #1a56a0;
+    --bs-primary-rgb: 26, 86, 160;
+    --bs-link-color: #1a56a0;
+    --bs-link-hover-color: #144080;
+}
+
+/* ── Botões ───────────────────────────────────────────────────────── */
+.btn-primary {
+    --bs-btn-bg: #1a56a0;
+    --bs-btn-border-color: #1a56a0;
+    --bs-btn-hover-bg: #144080;
+    --bs-btn-hover-border-color: #144080;
+    --bs-btn-active-bg: #0f3060;
+    --bs-btn-color: #fff;
+    --bs-btn-hover-color: #fff;
+    --bs-btn-disabled-bg: #1a56a0;
+    --bs-btn-disabled-border-color: #1a56a0;
+}
+
+.btn-outline-primary {
+    --bs-btn-color: #1a56a0;
+    --bs-btn-border-color: #1a56a0;
+    --bs-btn-hover-bg: #1a56a0;
+    --bs-btn-hover-border-color: #1a56a0;
+    --bs-btn-hover-color: #fff;
+    --bs-btn-active-bg: #144080;
+}
+
+/* ── Cores utilitárias ────────────────────────────────────────────── */
+.text-primary   { color: #1a56a0 !important; }
+.bg-primary     { background-color: #1a56a0 !important; }
+.border-primary { border-color: #1a56a0 !important; }
+.bg-primary-subtle { background-color: rgba(26, 86, 160, 0.12) !important; }
+
+/* ── Sidebar ──────────────────────────────────────────────────────── */
+.sidebar {
+    width: 250px;
+    min-height: 100vh;
+    background: #0f2d5a;
+    position: fixed;
+    top: 0;
+    left: 0;
+    overflow-y: auto;
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar-brand {
+    padding: 1.25rem 1rem;
+    color: white;
+    font-weight: 700;
+    font-size: 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    text-decoration: none;
+    display: block;
+}
+
+.sidebar-brand:hover {
+    color: #d4e4f7;
+}
+
+.sidebar .nav-section-title {
+    color: rgba(255, 255, 255, 0.35);
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    padding: 0.8rem 1rem 0.2rem;
+    list-style: none;
+}
+
+.sidebar .nav-link {
+    color: rgba(255, 255, 255, 0.7);
+    padding: 0.42rem 1rem;
+    font-size: 0.88rem;
+    border-radius: 0;
+    transition: background 0.15s, color 0.15s;
+}
+
+.sidebar .nav-link:hover {
+    color: #fff;
+    background: rgba(26, 86, 160, 0.35);
+}
+
+.sidebar .nav-link.active {
+    color: #fff;
+    background: rgba(26, 86, 160, 0.65);
+}
+
+.sub-nav-link {
+    padding-left: 2.25rem !important;
+}
+
+.sidebar-footer {
+    padding: 1rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    margin-top: auto;
+}
+
+/* ── Conteúdo principal ───────────────────────────────────────────── */
+.main-content {
+    margin-left: 250px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.top-navbar {
+    background: white;
+    border-bottom: 1px solid #e9ecef;
+    padding: 0.75rem 1.5rem;
+    display: flex;
+    align-items: center;
+}
+
+/* ── Avatar ───────────────────────────────────────────────────────── */
+.avatar-circle {
+    width: 34px;
+    height: 34px;
+    background: #1a56a0;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 0.7rem;
+    font-weight: 700;
+    flex-shrink: 0;
+}
+
+/* ── Cards de estatísticas ────────────────────────────────────────── */
+.stat-card { border-left: 4px solid #1a56a0; }
+.stat-card.verde  { border-left-color: #198754; }
+.stat-card.amarelo { border-left-color: #ffc107; }
+
+/* ── Card headers ─────────────────────────────────────────────────── */
+.card-header.bg-primary   { background-color: #1a56a0 !important; }
+.card-header.bg-secondary { background-color: #6c757d !important; }
+
+/* ── Badges de status de membro ───────────────────────────────────── */
+.badge-ativo      { background-color: #198754; }
+.badge-inativo    { background-color: #6c757d; }
+.badge-visitante  { background-color: #0dcaf0; color: #000 !important; }
+.badge-transferido { background-color: #ffc107; color: #000 !important; }
+
+/* ── Tabelas ──────────────────────────────────────────────────────── */
+.table thead th {
+    font-size: 0.82rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: #6c757d;
+}
+
+/* ── Formulários ──────────────────────────────────────────────────── */
+.form-label.fw-semibold {
+    font-size: 0.88rem;
+    color: #495057;
+}
+
+.form-control:focus,
+.form-select:focus {
+    border-color: #1a56a0;
+    box-shadow: 0 0 0 0.2rem rgba(26, 86, 160, 0.2);
+}
+
+/* ── Breadcrumb ───────────────────────────────────────────────────── */
+.breadcrumb-item a {
+    color: #1a56a0;
+    text-decoration: none;
+}
+
+.breadcrumb-item a:hover {
+    text-decoration: underline;
+}
+
+/* ── Login page ───────────────────────────────────────────────────── */
+.login-wrapper {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #0f2d5a 0%, #1a56a0 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.login-card {
+    border-radius: 12px;
+    border: none;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+}
+
+/* ── Responsividade básica ────────────────────────────────────────── */
+@media (max-width: 768px) {
+    .sidebar {
+        width: 100%;
+        min-height: auto;
+        position: relative;
+    }
+
+    .main-content {
+        margin-left: 0;
+    }
+}

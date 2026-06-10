@@ -1,0 +1,51 @@
+{% extends "base_dashboard.html" %}
+{% block title %}{{ titulo }} — Igreja Membresia{% endblock %}
+{% block page_title %}{{ titulo }}{% endblock %}
+
+{% block content %}
+<div class="mb-4">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb mb-0">
+            <li class="breadcrumb-item"><a href="{{ url_for('home') }}">Dashboard</a></li>
+            <li class="breadcrumb-item"><a href="{{ url_for('cargos_listar') }}">Cargos</a></li>
+            <li class="breadcrumb-item active">{{ titulo }}</li>
+        </ol>
+    </nav>
+</div>
+
+<form action="{{ url_for('cargos_alterar', id=item.id_cargo) if modo == 'alterar' else url_for('cargos_cadastrar') }}"
+    method="POST">
+    <div class="card border-0 shadow-sm mb-4">
+        <div class="card-header bg-white fw-semibold py-3"><i class="bi bi-shield-fill me-2 text-primary"></i>Dados do
+            Cargo</div>
+        <div class="card-body p-4">
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <label class="form-label fw-semibold">Nome do Cargo</label>
+                    <input type="text" name="nome" class="form-control" value="{{ item.nome if item else '' }}"
+                        placeholder="Ex.: Pastor, Diácono..." required>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label fw-semibold">Status</label>
+                    <select name="status" class="form-select">
+                        <option value="Ativo" {{ 'selected' if not item or item.status=='Ativo' else '' }}>Ativo
+                        </option>
+                        <option value="Inativo" {{ 'selected' if item and item.status=='Inativo' else '' }}>Inativo
+                        </option>
+                    </select>
+                </div>
+                <div class="col-12">
+                    <label class="form-label fw-semibold">Descrição</label>
+                    <textarea name="descricao" class="form-control" rows="2"
+                        placeholder="Descreva as responsabilidades...">{{ item.descricao if item else '' }}</textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="d-flex justify-content-between">
+        <a href="{{ url_for('cargos_listar') }}" class="btn btn-outline-secondary"><i
+                class="bi bi-arrow-left me-2"></i>Cancelar</a>
+        <button type="submit" class="btn btn-primary px-4"><i class="bi bi-check-lg me-2"></i>Salvar</button>
+    </div>
+</form>
+{% endblock %}

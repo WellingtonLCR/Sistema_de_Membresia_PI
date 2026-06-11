@@ -1,4 +1,4 @@
-# Igreja Membresia
+# Sistema de Membresia
 
 Sistema web para gerenciamento de membros de igreja, desenvolvido com **Python**, **Flask** e **MySQL**. Permite cadastrar membros com cargos e células, registrar contribuições financeiras e controlar o acesso ao sistema por meio de login e sessão.
 

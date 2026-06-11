@@ -1,7 +1,7 @@
 import mysql.connector
 from mysql.connector import Error, pooling
 import os
-
+# Configurações de conexão com o banco de dados
 _DB_PARAMS = {
     'host': 'localhost',
     'user': 'root',
@@ -15,7 +15,7 @@ _DB_PARAMS = {
 
 _pool = None
 
-
+# Criando pool de conexões
 def criar_pool():
     global _pool
     if _pool is None:
@@ -26,7 +26,7 @@ def criar_pool():
             **_DB_PARAMS
         )
 
-
+# Get connection entra no pool e não conecta diretamente ao banco, isso melhora a performance e evita sobrecarga de conexões
 def get_connection():
     try:
         if _pool is None:
@@ -35,7 +35,7 @@ def get_connection():
     except Error as e:
         raise Exception(f'Não foi possível obter conexão do pool: {e}')
 
-
+# Função genérica para executar queries, com tratamento de erros
 def execute_query(sql, params=None, fetch=False):
     conn = get_connection()
     try:
@@ -53,12 +53,12 @@ def execute_query(sql, params=None, fetch=False):
         cursor.close()
         conn.close()
 
-
+# Função para executar uma query e retornar um único resultado
 def execute_one(sql, params=None):
     resultados = execute_query(sql, params, fetch=True)
     return resultados[0] if resultados else None
 
-
+# Nessa função, tentamos conectar ao usando o dados informados anteriormente, e executamos o script SQL para criar o banco e as tabelas. Se ocorrer algum erro, ele é capturado e exibido.
 def iniciar_bd():
     try:
         conn = mysql.connector.connect(

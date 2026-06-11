@@ -2,7 +2,7 @@ CREATE DATABASE IF NOT EXISTS igreja_membros
   CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 USE igreja_membros;
-
+-- Criando tabelas usadas no sistema.
 CREATE TABLE IF NOT EXISTS cargos (
     id_cargo BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     nome VARCHAR(100) NOT NULL UNIQUE,

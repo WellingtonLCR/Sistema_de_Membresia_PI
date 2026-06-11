@@ -8,7 +8,8 @@ app.secret_key = 'igreja_secret_key_2024'
 
 iniciar_bd()
 
-
+# Cria um usuário administrador padrão (admin@igreja.com) se nenhum membro existir ainda
+# Garante que o sistema sempre tenha um usuário capaz de fazer login inicial
 def garantir_admin():
     try:    
         total = execute_one('SELECT COUNT(*) AS total FROM membros')
@@ -36,7 +37,8 @@ def garantir_admin():
 
 garantir_admin()
 
-
+# Decorator que protege as rotas, verificando se o usuário está autenticado
+# Redireciona para login se a sessão não existir
 def login_required(f):
     @wraps(f)
     def wrapper(*args, **kwargs):
@@ -47,6 +49,7 @@ def login_required(f):
     return wrapper
 
 
+# Injeta dados do usuário logado em todas as templates para exibir no menu/header
 @app.context_processor
 def injetar_usuario():
     return dict(usuario_logado=session.get('usuario'))
@@ -59,6 +62,7 @@ def index():
     return redirect(url_for('login'))
 
 
+# Gerencia o acesso ao sistema: valida email/senha e cria sessão do usuário
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
@@ -99,6 +103,7 @@ def login():
     return render_template('auth/login.html')
 
 
+# Encerra a sessão do usuário e redireciona para login
 @app.route('/logout')
 def logout():
     session.clear()
@@ -106,7 +111,7 @@ def logout():
     return redirect(url_for('login'))
 
 
-# ── Dashboard ─────────────────────────────────────────────────────────────────
+# Dashboard principal: exibe estatísticas (total de membros, células, contribuições) e últimos membros cadastrados
 
 @app.route('/home')
 @login_required
@@ -129,7 +134,7 @@ def home():
                            ultimos=ultimos)
 
 
-# ── Membros ───────────────────────────────────────────────────────────────────
+# Exibe lista de todos os membros com filtros: status, cargo, célula
 
 @app.route('/membros/listar')
 @login_required
@@ -144,6 +149,7 @@ def membros_listar():
     return render_template('dashboard/membros/listar.html', dados=dados)
 
 
+# Formulário para cadastrar novo membro com informações pessoais, endereço, cargo e célula
 @app.route('/membros/cadastrar', methods=['GET', 'POST'])
 @login_required
 def membros_cadastrar():
@@ -212,6 +218,7 @@ def membros_cadastrar():
                            item=None, cargos=cargos, celulas=celulas)
 
 
+# Edita informações de um membro existente (permite alterar senha)
 @app.route('/membros/alterar/<int:id>', methods=['GET', 'POST'])
 @login_required
 def membros_alterar(id):
@@ -295,6 +302,7 @@ def membros_alterar(id):
                            item=item, cargos=cargos, celulas=celulas)
 
 
+# Mostra detalhes completos de um membro e suas contribuições registradas
 @app.route('/membros/visualizar/<int:id>')
 @login_required
 def membros_visualizar(id):
@@ -316,6 +324,7 @@ def membros_visualizar(id):
     return render_template('dashboard/membros/visualizar.html', item=item, contribuicoes=contribuicoes)
 
 
+# Remove um membro do sistema
 @app.route('/membros/excluir/<int:id>', methods=['POST'])
 @login_required
 def membros_excluir(id):
@@ -329,6 +338,7 @@ def membros_excluir(id):
 
 # ── Cargos ────────────────────────────────────────────────────────────────────
 
+# Exibe lista de todos os cargos (ex: Pastor, Diácono, Presbítero)
 @app.route('/cargos/listar')
 @login_required
 def cargos_listar():
@@ -336,6 +346,7 @@ def cargos_listar():
     return render_template('dashboard/cargos/listar.html', dados=dados)
 
 
+# Cria novo cargo com nome, status e descrição
 @app.route('/cargos/cadastrar', methods=['GET', 'POST'])
 @login_required
 def cargos_cadastrar():
@@ -359,6 +370,7 @@ def cargos_cadastrar():
     return render_template('dashboard/cargos/form.html', titulo='Cadastrar Cargo', modo='cadastrar', item=None)
 
 
+# Edita informações de um cargo existente
 @app.route('/cargos/alterar/<int:id>', methods=['GET', 'POST'])
 @login_required
 def cargos_alterar(id):
@@ -386,6 +398,7 @@ def cargos_alterar(id):
     return render_template('dashboard/cargos/form.html', titulo='Alterar Cargo', modo='alterar', item=item)
 
 
+# Remove um cargo (só funciona se nenhum membro estiver vinculado)
 @app.route('/cargos/excluir/<int:id>', methods=['POST'])
 @login_required
 def cargos_excluir(id):
@@ -399,6 +412,7 @@ def cargos_excluir(id):
 
 # ── Células ───────────────────────────────────────────────────────────────────
 
+# Exibe lista de células com contagem de membros ativos em cada uma
 @app.route('/celulas/listar')
 @login_required
 def celulas_listar():
@@ -410,6 +424,7 @@ def celulas_listar():
     return render_template('dashboard/celulas/listar.html', dados=dados)
 
 
+# Cria nova célula (grupo pequeno de estudos) com líder, dia, horário e endereço
 @app.route('/celulas/cadastrar', methods=['GET', 'POST'])
 @login_required
 def celulas_cadastrar():
@@ -436,6 +451,7 @@ def celulas_cadastrar():
     return render_template('dashboard/celulas/form.html', titulo='Cadastrar Célula', modo='cadastrar', item=None)
 
 
+# Edita informações de uma célula existente
 @app.route('/celulas/alterar/<int:id>', methods=['GET', 'POST'])
 @login_required
 def celulas_alterar(id):
@@ -466,6 +482,7 @@ def celulas_alterar(id):
     return render_template('dashboard/celulas/form.html', titulo='Alterar Célula', modo='alterar', item=item)
 
 
+# Remove uma célula do sistema
 @app.route('/celulas/excluir/<int:id>', methods=['POST'])
 @login_required
 def celulas_excluir(id):
@@ -479,6 +496,7 @@ def celulas_excluir(id):
 
 # ── Contribuições ─────────────────────────────────────────────────────────────
 
+# Exibe lista de todas as contribuições registradas (dízimos, ofertas, etc) com total
 @app.route('/contribuicoes/listar')
 @login_required
 def contribuicoes_listar():
@@ -491,6 +509,7 @@ def contribuicoes_listar():
     return render_template('dashboard/contribuicoes/listar.html', dados=dados, total=total['total'])
 
 
+# Registra nova contribuição de um membro (tipo, valor, data, forma de pagamento)
 @app.route('/contribuicoes/cadastrar', methods=['GET', 'POST'])
 @login_required
 def contribuicoes_cadastrar():
@@ -524,6 +543,7 @@ def contribuicoes_cadastrar():
                            titulo='Registrar Contribuição', item=None, membros=membros)
 
 
+# Remove um registro de contribuição do sistema
 @app.route('/contribuicoes/excluir/<int:id>', methods=['POST'])
 @login_required
 def contribuicoes_excluir(id):
@@ -535,6 +555,7 @@ def contribuicoes_excluir(id):
     return redirect(url_for('contribuicoes_listar'))
 
 
+# Página informativa sobre a equipe da igreja
 @app.route('/equipe')
 @login_required
 def equipe():

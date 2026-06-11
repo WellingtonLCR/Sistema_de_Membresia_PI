@@ -1,8 +1,11 @@
+-- Cria o banco de dados se ele ainda não existir.
 CREATE DATABASE IF NOT EXISTS igreja_membros
-  CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+    CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
+-- Seleciona o banco que será usado nas próximas instruções.
 USE igreja_membros;
--- Criando tabelas usadas no sistema.
+
+-- Tabela de cargos dos membros, como Pastor, Diácono e outros.
 CREATE TABLE IF NOT EXISTS cargos (
     id_cargo BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     nome VARCHAR(100) NOT NULL UNIQUE,
@@ -12,6 +15,7 @@ CREATE TABLE IF NOT EXISTS cargos (
     alterado_em DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
+-- Tabela das células da igreja, com líder, dia, horário e endereço.
 CREATE TABLE IF NOT EXISTS celulas (
     id_celula BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     nome VARCHAR(100) NOT NULL UNIQUE,
@@ -24,6 +28,7 @@ CREATE TABLE IF NOT EXISTS celulas (
     alterado_em DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
+-- Tabela principal com os dados dos membros cadastrados no sistema.
 CREATE TABLE IF NOT EXISTS membros (
     id_membro BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     nome VARCHAR(255) NOT NULL,
@@ -52,6 +57,7 @@ CREATE TABLE IF NOT EXISTS membros (
     CONSTRAINT fk_membro_celula FOREIGN KEY (celula_id) REFERENCES celulas (id_celula)
 );
 
+-- Tabela que registra as contribuições financeiras dos membros.
 CREATE TABLE IF NOT EXISTS contribuicoes (
     id_contribuicao BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     membro_id BIGINT UNSIGNED NOT NULL,

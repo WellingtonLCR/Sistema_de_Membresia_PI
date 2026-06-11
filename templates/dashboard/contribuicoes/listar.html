@@ -12,8 +12,7 @@
     </nav>
     <div class="d-flex gap-2 align-items-center">
         <span class="fw-semibold text-success">Total: R$ {{ "%.2f"|format(total) }}</span>
-        <a href="{{ url_for('contribuicoes_cadastrar') }}" class="btn btn-primary"><i
-                class="bi bi-plus-circle me-2"></i>Registrar</a>
+        <a href="{{ url_for('contribuicoes_cadastrar') }}" class="btn btn-primary"><i class="bi bi-plus-circle me-2"></i>Registrar</a>
     </div>
 </div>
 
@@ -46,11 +45,9 @@
                     <td>{{ item.data_pagamento }}</td>
                     <td>{{ item.forma_pagamento }}</td>
                     <td class="text-center">
-                        <button type="button" class="btn btn-sm btn-outline-danger" data-bs-toggle="modal"
-                            data-bs-target="#modalExcluir" data-id="{{ item.id_contribuicao }}"><i
-                                class="bi bi-trash"></i></button>
+                        <button type="button" class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" data-bs-target="#modalExcluir" data-id="{{ item.id_contribuicao }}"><i class="bi bi-trash"></i></button>
                     </td>
-                </tr>
+                </tr>   
                 {% endfor %}
                 {% if not dados %}<tr>
                     <td colspan="7" class="text-center text-muted py-4">Nenhuma contribuição registrada.</td>
@@ -64,8 +61,7 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Confirmar Exclusão</h5><button type="button" class="btn-close"
-                    data-bs-dismiss="modal"></button>
+                <h5 class="modal-title">Confirmar Exclusão</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">Excluir esta contribuição?</div>
             <div class="modal-footer">
@@ -80,7 +76,7 @@
 {% block scripts %}
 <script>
     document.getElementById('modalExcluir').addEventListener('show.bs.modal', function (e) {
-        document.getElementById('formExcluir').action = '/contribuicoes/excluir/' + e.relatedTarget.getAttribute('data-id');
+    document.getElementById('formExcluir').action = '/contribuicoes/excluir/' + e.relatedTarget.getAttribute('data-id');
     });
 </script>
 {% endblock %}

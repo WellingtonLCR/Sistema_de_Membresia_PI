@@ -1,0 +1,130 @@
+{% extends "base_dashboard.html" %}
+{% block title %}Visualizar Membro — Igreja Membresia{% endblock %}
+{% block page_title %}Visualizar Membro{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb mb-0">
+            <li class="breadcrumb-item"><a href="{{ url_for('home') }}">Dashboard</a></li>
+            <li class="breadcrumb-item"><a href="{{ url_for('membros_listar') }}">Membros</a></li>
+            <li class="breadcrumb-item active">Visualizar</li>
+        </ol>
+    </nav>
+    <a href="{{ url_for('membros_alterar', id=item.id_membro) }}" class="btn btn-warning">
+        <i class="bi bi-pencil me-2"></i>Editar
+    </a>
+</div>
+
+<div class="row g-4">
+    <div class="col-md-8">
+        <div class="card border-0 shadow-sm mb-4">
+            <div class="card-header bg-white fw-semibold py-3"><i class="bi bi-person-fill me-2 text-primary"></i>Dados
+                Pessoais</div>
+            <div class="card-body p-4">
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <p class="text-muted small mb-1">Nome</p>
+                        <p class="fw-semibold mb-0">{{ item.nome }}</p>
+                    </div>
+                    <div class="col-md-6">
+                        <p class="text-muted small mb-1">E-mail</p>
+                        <p class="fw-semibold mb-0">{{ item.email or '—' }}</p>
+                    </div>
+                    <div class="col-md-4">
+                        <p class="text-muted small mb-1">CPF</p>
+                        <p class="fw-semibold mb-0">{{ item.cpf or '—' }}</p>
+                    </div>
+                    <div class="col-md-4">
+                        <p class="text-muted small mb-1">Celular</p>
+                        <p class="fw-semibold mb-0">{{ item.celular or '—' }}</p>
+                    </div>
+                    <div class="col-md-4">
+                        <p class="text-muted small mb-1">Nascimento</p>
+                        <p class="fw-semibold mb-0">{{ item.data_nascimento or '—' }}</p>
+                    </div>
+                    <div class="col-md-4">
+                        <p class="text-muted small mb-1">Batismo</p>
+                        <p class="fw-semibold mb-0">{{ item.data_batismo or '—' }}</p>
+                    </div>
+                    <div class="col-md-4">
+                        <p class="text-muted small mb-1">Ingresso</p>
+                        <p class="fw-semibold mb-0">{{ item.data_ingresso or '—' }}</p>
+                    </div>
+                    <div class="col-md-4">
+                        <p class="text-muted small mb-1">Status</p>
+                        <span class="badge bg-{{ 'success' if item.status == 'Ativo' else 'secondary' }}">{{ item.status
+                            }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card border-0 shadow-sm mb-4">
+            <div class="card-header bg-white fw-semibold py-3"><i
+                    class="bi bi-geo-alt-fill me-2 text-primary"></i>Endereço</div>
+            <div class="card-body p-4">
+                <div class="row g-3">
+                    <div class="col-md-8">
+                        <p class="text-muted small mb-1">Logradouro</p>
+                        <p class="fw-semibold mb-0">{{ item.logradouro or '—' }}, {{ item.numero or '' }}</p>
+                    </div>
+                    <div class="col-md-4">
+                        <p class="text-muted small mb-1">Bairro</p>
+                        <p class="fw-semibold mb-0">{{ item.bairro or '—' }}</p>
+                    </div>
+                    <div class="col-md-6">
+                        <p class="text-muted small mb-1">Cidade / Estado</p>
+                        <p class="fw-semibold mb-0">{{ item.cidade or '—' }} / {{ item.estado or '—' }}</p>
+                    </div>
+                    <div class="col-md-3">
+                        <p class="text-muted small mb-1">CEP</p>
+                        <p class="fw-semibold mb-0">{{ item.cep or '—' }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card border-0 shadow-sm mb-4">
+            <div class="card-header bg-white fw-semibold py-3"><i class="bi bi-church me-2 text-primary"></i>Na Igreja
+            </div>
+            <div class="card-body p-4">
+                <p class="text-muted small mb-1">Cargo</p>
+                <p class="fw-semibold mb-3">{{ item.cargo or '—' }}</p>
+                <p class="text-muted small mb-1">Célula</p>
+                <p class="fw-semibold mb-3">{{ item.celula or '—' }}</p>
+                {% if item.observacoes %}
+                <p class="text-muted small mb-1">Observações</p>
+                <p class="mb-0">{{ item.observacoes }}</p>
+                {% endif %}
+            </div>
+        </div>
+
+        {% if contribuicoes %}
+        <div class="card border-0 shadow-sm">
+            <div class="card-header bg-white fw-semibold py-3"><i class="bi bi-cash-coin me-2 text-primary"></i>Últimas
+                Contribuições</div>
+            <div class="card-body p-0">
+                <table class="table table-sm mb-0">
+                    <tbody>
+                        {% for c in contribuicoes %}
+                        <tr>
+                            <td class="ps-3">{{ c.tipo }}</td>
+                            <td class="fw-semibold text-success">R$ {{ "%.2f"|format(c.valor) }}</td>
+                            <td class="text-muted small pe-3">{{ c.data_pagamento }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<a href="{{ url_for('membros_listar') }}" class="btn btn-outline-secondary mt-2">
+    <i class="bi bi-arrow-left me-2"></i>Voltar
+</a>
+{% endblock %}
